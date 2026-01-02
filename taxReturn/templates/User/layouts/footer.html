@@ -1,0 +1,267 @@
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="footer-logo">
+                <i class="fas fa-calculator"></i>
+                <h3>TaxReturn</h3>
+            </div>
+            <p class="footer-description">
+                Your intelligent tax companion. We make tax planning, filing, and compliance simple, smart, and stress-free.
+            </p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Services</h4>
+            <ul class="footer-links">
+                <li><a href="">Tax Filing</a></li>
+                <li><a href="">Tax Planning</a></li>
+                <li><a href="">GST Solutions</a></li>
+                <li><a href="">Notice Management</a></li>
+                <li><a href="">Investment Advice</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Company</h4>
+            <ul class="footer-links">
+                <li><a href="">About Us</a></li>
+                <li><a href="">Careers</a></li>
+                <li><a href="">Blog</a></li>
+                <li><a href="">Press</a></li>
+                <li><a href="">Contact Us</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Legal</h4>
+            <ul class="footer-links">
+                <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
+                <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
+                <li><a href="{% url 'service_terms' %}">Paid Service Terms</a></li>
+                <li><a href="">Refund Policy</a></li>
+                <li><a href="">Disclaimer</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Contact Info</h4>
+            <div class="contact-info">
+                <p><i class="fas fa-map-marker-alt"></i> 123 Tax Street, Financial District, Mumbai 400001</p>
+                <p><i class="fas fa-phone"></i> +91 1800-123-4567</p>
+                <p><i class="fas fa-envelope"></i> support@TaxReturn.com</p>
+                <p><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 7:00 PM</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <p>&copy; 2023 TaxBuddy. All rights reserved. | Made with <i class="fas fa-heart" style="color: #e53e3e;"></i> for smart taxpayers</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa" title="Visa"></i>
+                <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                <i class="fab fa-cc-amex" title="American Express"></i>
+                <i class="fab fa-cc-paypal" title="PayPal"></i>
+                <i class="fas fa-university" title="Net Banking"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .main-footer {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        color: white;
+        margin-top: 50px;
+        padding-top: 50px;
+    }
+    
+    .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+    }
+    
+    .footer-section h4 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: white;
+        position: relative;
+        padding-bottom: 10px;
+    }
+    
+    .footer-section h4::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 3px;
+        background-color: var(--secondary-color);
+    }
+    
+    .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .footer-logo i {
+        font-size: 32px;
+        color: var(--secondary-color);
+    }
+    
+    .footer-logo h3 {
+        font-size: 24px;
+        font-weight: 700;
+    }
+    
+    .footer-description {
+        color: #94a3b8;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+    
+    .footer-social {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .footer-social a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        font-size: 16px;
+        transition: var(--transition);
+    }
+    
+    .footer-social a:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-3px);
+    }
+    
+    .footer-links {
+        list-style: none;
+    }
+    
+    .footer-links li {
+        margin-bottom: 12px;
+    }
+    
+    .footer-links a {
+        color: #cbd5e1;
+        text-decoration: none;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .footer-links a:hover {
+        color: var(--secondary-color);
+        padding-left: 5px;
+    }
+    
+    .contact-info p {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 15px;
+        color: #cbd5e1;
+    }
+    
+    .contact-info i {
+        color: var(--secondary-color);
+        margin-top: 3px;
+        flex-shrink: 0;
+    }
+    
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 50px;
+        padding: 25px 0;
+    }
+    
+    .footer-bottom-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    
+    .footer-bottom p {
+        color: #94a3b8;
+        font-size: 14px;
+    }
+    
+    .payment-methods {
+        display: flex;
+        gap: 15px;
+        font-size: 24px;
+        color: #cbd5e1;
+    }
+    
+    .payment-methods i {
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .payment-methods i:hover {
+        color: var(--secondary-color);
+    }
+    
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-bottom-content {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .footer-section {
+            text-align: center;
+        }
+        
+        .footer-section h4::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .footer-social {
+            justify-content: center;
+        }
+        
+        .contact-info p {
+            justify-content: center;
+        }
+    }
+</style>

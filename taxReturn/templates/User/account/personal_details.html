@@ -1,0 +1,1113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaxBuddy - Profile Management{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'User/ITR/css/style.css' %}">
+    
+    <!-- Page Specific CSS -->
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eef2ff;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-color: #f9fafb;
+            --border-color: #e5e7eb;
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --card-shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #374151;
+            line-height: 1.5;
+        }
+        
+        /* App Container Structure */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content-wrapper {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+        
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-header p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+        
+        /* Profile Container */
+        .profile-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        /* Profile Header */
+        .profile-header {
+            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+            padding: 2rem;
+            color: white;
+            position: relative;
+        }
+        
+        .profile-avatar-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 2rem;
+            border: 3px solid white;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .avatar-change-btn {
+            position: absolute;
+            bottom: 1rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .avatar-change-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .profile-info h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-info p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        /* Profile Content */
+        .profile-content {
+            padding: 2rem;
+        }
+        
+        /* Alert Messages */
+        .alert-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-message {
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        
+        .alert-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+        
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+        
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .input-group .input-icon {
+            padding: 0.75rem 1rem;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            font-size: 1rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 45px;
+        }
+        
+        .input-group .form-control {
+            flex: 1;
+            border: none;
+            padding: 0.75rem;
+        }
+        
+        .input-group .form-control:focus {
+            box-shadow: none;
+        }
+        
+        .form-help {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-top: 0.375rem;
+            display: block;
+        }
+        
+        /* Information Box */
+        .info-box {
+            background-color: var(--primary-light);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .info-box h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .info-box li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        
+        .info-box li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .info-box li:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            justify-content: center;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #4b5563;
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-outline:hover {
+            background: #f9fafb;
+            border-color: #d1d5db;
+            text-decoration: none;
+            color: #4b5563;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a56d4;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Verification Status */
+        .verification-section {
+            margin-top: 3rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .verification-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .verification-item {
+            background: var(--light-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+        
+        .verification-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .verification-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .verification-icon.verified {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        .verification-icon.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .verification-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .verification-item p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+        
+        .status-verified {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+            
+            .profile-header {
+                padding: 1.5rem;
+            }
+            
+            .profile-avatar-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .avatar-change-btn {
+                position: static;
+                margin-top: 1rem;
+                width: auto;
+                display: inline-flex;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .action-buttons > div {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .verification-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .spinner {
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Fade In Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Footer Styling */
+        .main-footer {
+            background: white;
+            border-top: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            margin-top: auto;
+        }
+        
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-overlay.active {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+        }
+        
+        /* Ensure proper scrolling */
+        html, body {
+            height: 100%;
+        }
+        
+        .app-container {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        {% include 'User/layouts/sidebar.html' %}
+        
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content" id="mainContent">
+            <!-- Header -->
+            {% include 'User/layouts/header.html' %}
+            
+            <!-- Content Wrapper -->
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header fade-in">
+                    <h1>Profile Settings</h1>
+                    <p>Manage your personal information and verification status</p>
+                </div>
+                
+                <!-- Profile Container -->
+                <div class="profile-container fade-in">
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-avatar-container">
+                            <div class="profile-avatar">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" alt="Profile">
+                                {% else %}
+                                    <i class="fas fa-user"></i>
+                                {% endif %}
+                            </div>
+                            <div class="profile-info">
+                                <h2>{{ itr.full_name|default:user.get_full_name|default:user.username }}</h2>
+                                <p>{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <button class="avatar-change-btn" onclick="document.getElementById('avatarInput').click()">
+                            <i class="fas fa-camera"></i>Change Photo
+                        </button>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <!-- Profile Content -->
+                    <div class="profile-content">
+                        <!-- Alert Messages -->
+                        {% if messages %}
+                        <div class="alert-container">
+                            {% for message in messages %}
+                            <div class="alert-message alert-{{ message.tags }}">
+                                {% if message.tags == 'success' %}
+                                    <i class="fas fa-check-circle"></i>
+                                {% elif message.tags == 'error' %}
+                                    <i class="fas fa-exclamation-circle"></i>
+                                {% elif message.tags == 'warning' %}
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                {% else %}
+                                    <i class="fas fa-info-circle"></i>
+                                {% endif %}
+                                <span>{{ message }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Profile Form -->
+                        <form method="post" id="profileForm">
+                            {% csrf_token %}
+                            
+                            <!-- Personal Information -->
+                            <div class="form-section">
+                                <h3 class="section-title">Personal Information</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="fullName">Full Name</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-user"></i></span>
+                                            <input type="text" 
+                                                id="fullName" 
+                                                name="full_name"
+                                                value="{{ user.full_name|default:user.get_full_name|default:user.username }}"
+                                                class="form-control"
+                                                placeholder="Enter your full name"
+                                                required>
+                                        </div>
+                                        <span class="form-help">Legal name as per PAN card</span>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email Address</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                            <input type="email" 
+                                                id="email"
+                                                name="email"
+                                                value="{{ user.email }}"
+                                                class="form-control"
+                                                placeholder="Enter your email"
+                                                required>
+                                        </div>
+                                        <span class="form-help">Used for communication</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Government IDs -->
+                            <div class="form-section">
+                                <h3 class="section-title">Government Identification</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="pan">PAN Number</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-credit-card"></i></span>
+                                            <input type="text" 
+                                                id="pan"
+                                                name="pan"
+                                                value="{% firstof user.pan_number itr.pan '' %}"
+                                                class="form-control text-uppercase"
+                                                placeholder="ABCDE1234F"
+                                                maxlength="10"
+                                                pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                                                oninput="this.value = this.value.toUpperCase()">
+                                        </div>
+                                        <span class="form-help">10-character Permanent Account Number</span>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="aadhaar">Aadhaar Number</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-fingerprint"></i></span>
+                                            <input type="text" 
+                                                id="aadhaar"
+                                                name="aadhaar"
+                                                value="{{ user.aadhaar_number }}"
+                                                class="form-control"
+                                                placeholder="1234 5678 9012"
+                                                maxlength="12"
+                                                pattern="[0-9]{12}">
+                                        </div>
+                                        <span class="form-help">12-digit unique identification number</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Additional Details -->
+                            <div class="form-section">
+                                <h3 class="section-title">Additional Details</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="dob">Date of Birth</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
+                                            <input type="date" 
+                                                id="dob"
+                                                name="dob"
+                                                value="{{ user.dob }}"
+                                                class="form-control"
+                                                max="{{ today|date:'Y-m-d' }}">
+                                        </div>
+                                        <span class="form-help">As per official documents</span>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">Phone Number</label>
+                                        <div class="input-group">
+                                            <span class="input-icon"><i class="fas fa-phone"></i></span>
+                                            <input type="tel" 
+                                                id="phone"
+                                                name="phone"
+                                                value="{{ user.phone|default:'' }}"
+                                                class="form-control"
+                                                placeholder="+91 98765 43210">
+                                        </div>
+                                        <span class="form-help">For updates and OTP verification</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Information Box -->
+                            <div class="info-box">
+                                <h4><i class="fas fa-info-circle"></i>Important Information</h4>
+                                <ul>
+                                    <li>Ensure all details match your government-issued documents</li>
+                                    <li>PAN and Aadhaar details are required for ITR filing</li>
+                                    <li>Updates may take a few minutes to reflect across the system</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <a href="{% url 'user_dashboard' %}" class="btn btn-outline">
+                                    <i class="fas fa-arrow-left"></i>Back to Dashboard
+                                </a>
+                                <div>
+                                    <button type="button" onclick="resetForm()" class="btn btn-secondary">
+                                        <i class="fas fa-undo"></i>Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>Save Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <!-- Verification Status -->
+                        <div class="verification-section">
+                            <h3 class="section-title">Verification Status</h3>
+                            <div class="verification-grid">
+                                <div class="verification-item">
+                                    <div class="verification-icon verified">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <h4>Email Address</h4>
+                                    <p>Verified and active</p>
+                                    <span class="status-badge status-verified">Verified</span>
+                                </div>
+                                
+                                <div class="verification-item">
+                                    <div class="verification-icon {% if itr.pan or user.pan_number %}verified{% else %}pending{% endif %}">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <h4>PAN Card</h4>
+                                    <p>{% if itr.pan or user.pan_number %}Verified{% else %}Not verified{% endif %}</p>
+                                    <span class="status-badge {% if itr.pan or user.pan_number %}status-verified{% else %}status-pending{% endif %}">
+                                        {% if itr.pan or user.pan_number %}Verified{% else %}Pending{% endif %}
+                                    </span>
+                                </div>
+                                
+                                <div class="verification-item">
+                                    <div class="verification-icon {% if itr.aadhaar %}verified{% else %}pending{% endif %}">
+                                        <i class="fas fa-fingerprint"></i>
+                                    </div>
+                                    <h4>Aadhaar Card</h4>
+                                    <p>{% if itr.aadhaar %}Linked{% else %}Not linked{% endif %}</p>
+                                    <span class="status-badge {% if itr.aadhaar %}status-verified{% else %}status-pending{% endif %}">
+                                        {% if itr.aadhaar %}Linked{% else %}Pending{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            {% include 'User/layouts/footer.html' %}
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    <!-- Page Specific JS -->
+    <script>
+        // Store original form values for reset
+        let originalValues = {};
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Store original values
+            const form = document.getElementById('profileForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                if (input.name) {
+                    originalValues[input.name] = input.value;
+                }
+            });
+            
+            // Set max date for DOB (must be at least 18 years old)
+            const today = new Date();
+            const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+            const dobField = document.getElementById('dob');
+            if (dobField) {
+                dobField.max = maxDate.toISOString().split('T')[0];
+                
+                // If no date is set, set a default (30 years ago)
+                if (!dobField.value) {
+                    const defaultDate = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate());
+                    // Don't set default, just leave empty
+                }
+            }
+            
+            // Auto-format PAN number
+            const panField = document.getElementById('pan');
+            if (panField) {
+                panField.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^A-Z0-9]/g, '').toUpperCase();
+                });
+                
+                // Add validation styling
+                panField.addEventListener('blur', function() {
+                    if (this.value && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(this.value)) {
+                        this.style.borderColor = 'var(--danger-color)';
+                    } else {
+                        this.style.borderColor = '';
+                    }
+                });
+            }
+            
+            // Auto-format Aadhaar number
+            const aadhaarField = document.getElementById('aadhaar');
+            if (aadhaarField) {
+                aadhaarField.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/\D/g, '').substring(0, 12);
+                });
+                
+                // Add validation styling
+                aadhaarField.addEventListener('blur', function() {
+                    if (this.value && !/^[0-9]{12}$/.test(this.value)) {
+                        this.style.borderColor = 'var(--danger-color)';
+                    } else {
+                        this.style.borderColor = '';
+                    }
+                });
+            }
+            
+            // Initialize animations
+            initAnimations();
+        });
+        
+        // Form validation
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            const pan = document.getElementById('pan').value;
+            const aadhaar = document.getElementById('aadhaar').value;
+            const dob = document.getElementById('dob').value;
+            
+            // PAN validation
+            if (pan && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(pan)) {
+                e.preventDefault();
+                showAlert('Please enter a valid PAN number (e.g., ABCDE1234F)', 'error');
+                document.getElementById('pan').focus();
+                return false;
+            }
+            
+            // Aadhaar validation
+            if (aadhaar && !/^[0-9]{12}$/.test(aadhaar)) {
+                e.preventDefault();
+                showAlert('Please enter a valid 12-digit Aadhaar number', 'error');
+                document.getElementById('aadhaar').focus();
+                return false;
+            }
+            
+            // Date of Birth validation
+            if (dob) {
+                const birthDate = new Date(dob);
+                const today = new Date();
+                const age = today.getFullYear() - birthDate.getFullYear();
+                
+                // Adjust age if birthday hasn't occurred this year
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                if (age < 18) {
+                    e.preventDefault();
+                    showAlert('You must be at least 18 years old', 'error');
+                    document.getElementById('dob').focus();
+                    return false;
+                }
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<span class="spinner"></span>Saving...';
+            submitBtn.disabled = true;
+            
+            // Re-enable button after 5 seconds if submission fails
+            setTimeout(() => {
+                if (submitBtn.disabled) {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }, 5000);
+        });
+        
+        // Reset form to original values
+        function resetForm() {
+            const form = document.getElementById('profileForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                if (input.name && originalValues[input.name] !== undefined) {
+                    input.value = originalValues[input.name];
+                }
+            });
+            
+            showAlert('Form has been reset to original values', 'info');
+        }
+        
+        // Avatar upload
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Validate file
+            if (file.size > 5 * 1024 * 1024) {
+                showAlert('File size should be less than 5MB', 'error');
+                this.value = '';
+                return;
+            }
+            
+            if (!file.type.match('image.*')) {
+                showAlert('Please select an image file (JPEG, PNG, etc.)', 'error');
+                this.value = '';
+                return;
+            }
+            
+            // Preview image
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const avatar = document.querySelector('.profile-avatar');
+                avatar.innerHTML = `<img src="${e.target.result}" alt="Profile">`;
+            };
+            reader.readAsDataURL(file);
+            
+            // Show success message
+            showAlert('Profile photo updated successfully', 'success');
+            
+            // Here you would typically upload to server
+            // uploadAvatar(file);
+        });
+        
+        // Show alert message
+        function showAlert(message, type = 'info') {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.alert-message');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            // Create alert container if it doesn't exist
+            let alertContainer = document.querySelector('.alert-container');
+            if (!alertContainer) {
+                alertContainer = document.createElement('div');
+                alertContainer.className = 'alert-container';
+                const profileContent = document.querySelector('.profile-content');
+                profileContent.insertBefore(alertContainer, profileContent.firstChild);
+            }
+            
+            // Create new alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert-message alert-${type}`;
+            
+            // Set icon based on type
+            let icon = 'fa-info-circle';
+            if (type === 'success') icon = 'fa-check-circle';
+            if (type === 'error') icon = 'fa-exclamation-circle';
+            if (type === 'warning') icon = 'fa-exclamation-triangle';
+            
+            alertDiv.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+                <button type="button" class="btn-close" onclick="this.parentElement.remove()" style="margin-left: auto; background: none; border: none; font-size: 1rem; opacity: 0.7; cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add to container
+            alertContainer.appendChild(alertDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.style.opacity = '0';
+                    alertDiv.style.transform = 'translateY(-10px)';
+                    setTimeout(() => alertDiv.remove(), 300);
+                }
+            }, 5000);
+        }
+        
+        // Initialize animations
+        function initAnimations() {
+            // Add fade-in animation to sections
+            const sections = document.querySelectorAll('.form-section, .info-box, .verification-section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+        
+        // Phone number formatting
+        document.getElementById('phone')?.addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+            
+            if (value.length > 6) {
+                this.value = `+91 ${value.substring(0, 5)} ${value.substring(5)}`;
+            } else if (value.length > 5) {
+                this.value = `+91 ${value.substring(0, 5)} ${value.substring(5)}`;
+            } else if (value.length > 0) {
+                this.value = `+91 ${value}`;
+            } else {
+                this.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

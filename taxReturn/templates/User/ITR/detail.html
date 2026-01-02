@@ -1,0 +1,454 @@
+<!-- detail.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaxBuddy - ITR Form{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'User/ITR/css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+        }
+        
+        .header-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-section h5 {
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+        }
+        
+        .income-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .document-card {
+            border: 2px dashed #cbd5e0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+        
+        .document-card:hover {
+            border-color: #667eea;
+            background: #edf2f7;
+        }
+        
+        .document-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        {% include 'User/layouts/sidebar.html' %}
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        
+        <div class="main-content" id="mainContent">
+            {% include 'User/layouts/header.html' %}
+            
+            <div class="content-wrapper">
+                <div class="container-fluid py-4">
+                    <!-- Header -->
+                    <div class="header-gradient animate-fadeInUp">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h2 class="mb-2">ITR Form - {{ itr.assessment_year }}</h2>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge-modern 
+                                        {% if itr.status == 'draft' %}badge-draft
+                                        {% elif itr.status == 'submitted' %}badge-submitted
+                                        {% else %}badge-verified{% endif %} me-3">
+                                        {{ itr.get_status_display }}
+                                    </span>
+                                    <small class="text-white-50">
+                                        <i class="far fa-calendar me-1"></i>
+                                        Last updated: {{ itr.updated_at|date:"M d, Y" }}
+                                    </small>
+                                </div>
+                            </div>
+                            <a href="{% url 'itr_list' %}" class="btn btn-light btn-modern">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-white">Progress</span>
+                                <span class="text-white">
+                                    {% if itr.status == 'draft' %}30%
+                                    {% elif itr.status == 'submitted' %}60%
+                                    {% elif itr.status == 'verified' %}90%
+                                    {% else %}100%{% endif %}
+                                </span>
+                            </div>
+                            <div class="progress-modern">
+                                <div class="progress-bar-modern" 
+                                    style="width: {% if itr.status == 'draft' %}30%
+                                            {% elif itr.status == 'submitted' %}60%
+                                            {% elif itr.status == 'verified' %}90%
+                                            {% else %}100%{% endif %};">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if itr.status == 'draft' %}
+                    <!-- Editable Form -->
+                    <form method="post" enctype="multipart/form-data" class="modern-form animate-fadeInUp">
+                        {% csrf_token %}
+                        
+                        <!-- Personal Details -->
+                        <div class="form-section">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="section-icon">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h5 class="mb-0">Personal Information</h5>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.full_name }}
+                                        <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.pan }}
+                                        <label for="{{ form.pan.id_for_label }}">PAN Number</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.aadhaar }}
+                                        <label for="{{ form.aadhaar.id_for_label }}">Aadhaar Number</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.dob }}
+                                        <label for="{{ form.dob.id_for_label }}">Date of Birth</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <!-- Documents Upload -->
+                        <div class="form-section">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="section-icon">
+                                    <i class="fas fa-file-upload"></i>
+                                </div>
+                                <h5 class="mb-0">Upload Documents</h5>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="document-card">
+                                        <div class="document-icon">
+                                            <i class="fas fa-id-card"></i>
+                                        </div>
+                                        <h6>PAN Card</h6>
+                                        {{ form.pan_card }}
+                                        <small class="text-muted">Upload PAN Card (PDF/Image)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="document-card">
+                                        <div class="document-icon">
+                                            <i class="fas fa-address-card"></i>
+                                        </div>
+                                        <h6>Aadhaar Card</h6>
+                                        {{ form.aadhaar_card }}
+                                        <small class="text-muted">Upload Aadhaar Card (PDF/Image)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="document-card">
+                                        <div class="document-icon">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </div>
+                                        <h6>Form 16</h6>
+                                        {{ form.form_16 }}
+                                        <small class="text-muted">Upload Form 16 (PDF)</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="document-card">
+                                        <div class="document-icon">
+                                            <i class="fas fa-university"></i>
+                                        </div>
+                                        <h6>Bank Statement</h6>
+                                        {{ form.bank_statement }}
+                                        <small class="text-muted">Upload Bank Statement (PDF)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Income Details -->
+                        <div class="form-section">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="section-icon">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                                <h5 class="mb-0">Income Details</h5>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="income-card">
+                                        <label class="form-label text-muted mb-2">Salary Income</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₹</span>
+                                            {{ form.salary_income }}
+                                        </div>
+                                        <small class="text-muted">Income from salary & wages</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="income-card">
+                                        <label class="form-label text-muted mb-2">Business Income</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₹</span>
+                                            {{ form.business_income }}
+                                        </div>
+                                        <small class="text-muted">Income from business/profession</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="income-card">
+                                        <label class="form-label text-muted mb-2">Other Income</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₹</span>
+                                            {{ form.other_income }}
+                                        </div>
+                                        <small class="text-muted">Other sources of income</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deductions -->
+                        <div class="form-section">
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="section-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <h5 class="mb-0">Deductions</h5>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.deduction_80c }}
+                                        <label for="{{ form.deduction_80c.id_for_label }}">80C Deduction (₹)</label>
+                                        <small class="text-muted mt-1 d-block">Investments in PPF, ELSS, Life Insurance, etc.</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.deduction_80d }}
+                                        <label for="{{ form.deduction_80d.id_for_label }}">80D Deduction (₹)</label>
+                                        <small class="text-muted mt-1 d-block">Medical Insurance Premium</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<input type="hidden" name="gross_income" id="gross_income_hidden">
+<input type="hidden" name="total_deduction" id="total_deduction_hidden">
+<input type="hidden" name="taxable_income" id="taxable_income_hidden">
+<input type="hidden" name="tax_payable" id="tax_payable_hidden">
+
+
+                        <div class="form-section">
+    <div class="d-flex align-items-center mb-4">
+        <div class="section-icon">
+            <i class="fas fa-calculator"></i>
+        </div>
+        <h5 class="mb-0">Tax Summary (Auto Calculated)</h5>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <label class="form-label">Gross Income</label>
+            <input type="text" id="gross_income" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Total Deduction</label>
+            <input type="text" id="total_deduction" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label">Taxable Income</label>
+            <input type="text" id="taxable_income" class="form-control" readonly>
+        </div>
+
+        <div class="col-md-3">
+            <label class="form-label fw-bold text-danger">Estimated Tax</label>
+            <input type="text" id="tax_payable" class="form-control fw-bold" readonly>
+        </div>
+
+
+    </div>
+</div>
+<script>
+function calculateTaxJS(taxableIncome) {
+    let tax = 0;
+
+    if (taxableIncome <= 300000) tax = 0;
+    else if (taxableIncome <= 600000) tax = (taxableIncome - 300000) * 0.05;
+    else if (taxableIncome <= 900000) tax = 15000 + (taxableIncome - 600000) * 0.10;
+    else if (taxableIncome <= 1200000) tax = 45000 + (taxableIncome - 900000) * 0.15;
+    else if (taxableIncome <= 1500000) tax = 90000 + (taxableIncome - 1200000) * 0.20;
+    else tax = 150000 + (taxableIncome - 1500000) * 0.30;
+
+    return Math.round(tax);
+}
+
+function updateSummary() {
+    let salary = Number(document.getElementById("id_salary_income").value || 0);
+    let business = Number(document.getElementById("id_business_income").value || 0);
+    let other = Number(document.getElementById("id_other_income").value || 0);
+
+    let d80c = Number(document.getElementById("id_deduction_80c").value || 0);
+    let d80d = Number(document.getElementById("id_deduction_80d").value || 0);
+
+    let gross = salary + business + other;
+    let deduction = d80c + d80d;
+    let taxable = Math.max(gross - deduction, 0);
+    let tax = calculateTaxJS(taxable);
+
+    document.getElementById("gross_income").value = gross;
+    document.getElementById("total_deduction").value = deduction;
+    document.getElementById("taxable_income").value = taxable;
+    document.getElementById("tax_payable").value = tax;
+
+
+    document.getElementById("gross_income_hidden").value = gross;
+    document.getElementById("total_deduction_hidden").value = deduction;
+document.getElementById("taxable_income_hidden").value = taxable;
+document.getElementById("tax_payable_hidden").value = tax;
+}
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", updateSummary);
+});
+
+updateSummary(); // initial load
+
+</script>
+
+
+                        <!-- Action Buttons -->
+                        <div class="form-section">
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-modern btn-outline-secondary">
+                                    <i class="fas fa-save me-2"></i>Save Draft
+                                </button>
+                                <button type="submit" name="submit_itr" class="btn btn-modern btn-gradient-success">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit ITR
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    {% else %}
+                    <!-- Read-only View -->
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="fas fa-info-circle fa-2x me-3"></i>
+                        <div>
+                            <h5 class="alert-heading mb-1">ITR Submitted Successfully!</h5>
+                            <p class="mb-0">This ITR has been submitted and is now in view-only mode.</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+      
+
+            
+            {% include 'User/layouts/footer.html' %}
+        </div>
+    </div>
+    
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        // Add animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach((section, index) => {
+                section.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // File upload preview
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function(e) {
+                    const parent = this.closest('.document-card');
+                    if (this.files.length > 0) {
+                        parent.style.borderColor = '#28a745';
+                        parent.style.background = '#f0fff4';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

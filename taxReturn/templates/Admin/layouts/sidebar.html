@@ -1,0 +1,467 @@
+<aside class="sidebar" id="sidebar">
+    <!-- Logo Section -->
+    <div class="sidebar-header">
+        <div class="logo">
+            <i class="fas fa-calculator logo-icon"></i>
+            <h2 class="logo-text">TaxReturn</h2>
+        </div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- User Profile Summary -->
+    {% comment %} <div class="user-profile">
+        <div class="avatar">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="user-info">
+            <h4>{{ user.get_full_name|default:user.username }}</h4>
+            <p class="user-email">{{ user.email }}</p>
+            <span class="user-badge">Premium Member</span>
+        </div>
+    </div> {% endcomment %}
+    
+    <!-- Navigation Menu -->
+    <nav class="sidebar-nav">
+        <ul class="nav-menu">
+            <!-- Dashboard -->
+             <li class="nav-item">
+                <a href="{% url 'my_details' %}" class="nav-link">
+                    <i class="fas fa-user-cog"></i>
+                    <span>My Details</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Ai Assistant</span>
+                </a>
+            </li>
+            
+            {% comment %} <!-- My Orders -->
+            <li class="nav-item">
+                <a href="{% url 'orders' %}" class="nav-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>My Orders</span>
+                    <span class="badge">5</span>
+                </a>
+            </li>
+            
+            <!-- Tax Planning -->
+            <li class="nav-item has-submenu">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Tax Planning</span>
+                    <i class="fas fa-chevron-down dropdown-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li><a href="{% url 'tax_planning' %}">Current Year Planning</a></li>
+                    <li><a href="{% url 'ai_tax_plan' %}">AI Tax Planner</a></li>
+                    <li><a href="{% url 'tax_savings' %}">Tax Savings</a></li>
+                </ul>
+            </li>
+            
+            <!-- Tax Center -->
+            <li class="nav-item">
+                <a href="{% url 'tax_center' %}" class="nav-link">
+                    <i class="fas fa-landmark"></i>
+                    <span>Tax Center</span>
+                </a>
+            </li>
+            
+            <!-- Investments -->
+            <li class="nav-item">
+                <a href="{% url 'investments' %}" class="nav-link">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Investments</span>
+                </a>
+            </li>
+            
+            <!-- Notices -->
+            <li class="nav-item">
+                <a href="{% url 'notices' %}" class="nav-link">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Notices</span>
+                    <span class="badge badge-danger">2</span>
+                </a>
+            </li>
+            
+            <!-- GST Solutions -->
+            <li class="nav-item">
+                <a href="{% url 'gst_solutions' %}" class="nav-link">
+                    <i class="fas fa-receipt"></i>
+                    <span>GST Solutions</span>
+                </a>
+            </li>
+            
+            <!-- My Details -->
+            <li class="nav-item">
+                <a href="{% url 'my_details' %}" class="nav-link">
+                    <i class="fas fa-user-cog"></i>
+                    <span>My Details</span>
+                </a>
+            </li>
+            
+            <!-- Document Cloud -->
+            <li class="nav-item">
+                <a href="{% url 'document_cloud' %}" class="nav-link">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Document Cloud</span>
+                </a>
+            </li>
+            
+            <!-- Calculator -->
+            <li class="nav-item">
+                <a href="{% url 'calculator' %}" class="nav-link">
+                    <i class="fas fa-calculator"></i>
+                    <span>Tax Calculator</span>
+                </a>
+            </li>
+            
+            <!-- Divider -->
+            <li class="nav-divider">
+                <span>Account</span>
+            </li>
+            
+            <!-- Subscription -->
+            <li class="nav-item">
+                <a href="{% url 'subscription' %}" class="nav-link">
+                    <i class="fas fa-crown"></i>
+                    <span>Subscription</span>
+                    <span class="badge badge-premium">Premium</span>
+                </a>
+            </li>
+            
+            <!-- Pricing -->
+            <li class="nav-item">
+                <a href="{% url 'pricing' %}" class="nav-link">
+                    <i class="fas fa-tag"></i>
+                    <span>Pricing</span>
+                </a>
+            </li>
+            
+            <!-- Blogs -->
+            <li class="nav-item">
+                <a href="{% url 'blogs' %}" class="nav-link">
+                    <i class="fas fa-blog"></i>
+                    <span>Blogs & Guides</span>
+                </a>
+            </li>
+            
+            <!-- Settings -->
+            <li class="nav-item">
+                <a href="{% url 'settings' %}" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            
+            <!-- Help & Support -->
+            <li class="nav-item">
+                <a href="{% url 'help' %}" class="nav-link">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+            </li> {% endcomment %}
+        </ul>
+    </nav>
+    
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+        <div class="logout-btn">
+            <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </form>
+        </div>
+        <div class="sidebar-info">
+            <p>© 2023 TaxReturn. All rights reserved.</p>
+            <div class="sidebar-links">
+                <a href="{% url 'terms' %}">Terms</a>
+                <a href="{% url 'privacy' %}">Privacy</a>
+                <a href="{% url 'service_terms' %}">Service Terms</a>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<style>
+    /* Sidebar Styles */
+    .sidebar {
+        width: var(--sidebar-width);
+        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+        color: white;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition);
+        overflow-y: auto;
+    }
+    
+    .sidebar-header {
+        padding: 25px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .logo-icon {
+        font-size: 28px;
+        color: var(--secondary-color);
+    }
+    
+    .logo-text {
+        font-size: 22px;
+        font-weight: 700;
+        color: white;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .sidebar-toggle {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+    }
+    
+    /* User Profile */
+    .user-profile {
+        padding: 25px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+    
+    .user-info h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .user-email {
+        font-size: 13px;
+        color: #94a3b8;
+        margin-bottom: 8px;
+    }
+    
+    .user-badge {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    
+    /* Navigation Menu */
+    .sidebar-nav {
+        flex: 1;
+        padding: 20px 0;
+        overflow-y: auto;
+    }
+    
+    .nav-menu {
+        list-style: none;
+    }
+    
+    .nav-item {
+        margin-bottom: 5px;
+    }
+    
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 14px 20px;
+        color: #cbd5e1;
+        text-decoration: none;
+        transition: var(--transition);
+        position: relative;
+        gap: 15px;
+    }
+    
+    .nav-link:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        padding-left: 25px;
+    }
+    
+    .nav-link.active {
+        background: rgba(45, 91, 227, 0.2);
+        color: white;
+        border-left: 4px solid var(--primary-color);
+    }
+    
+    .nav-link i {
+        font-size: 18px;
+        width: 24px;
+        text-align: center;
+    }
+    
+    .badge {
+        margin-left: auto;
+        background-color: var(--primary-color);
+        color: white;
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+    
+    .badge-danger {
+        background-color: var(--danger-color);
+    }
+    
+    .badge-premium {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        color: #000;
+    }
+    
+    /* Submenu */
+    .has-submenu .nav-link {
+        justify-content: space-between;
+    }
+    
+    .dropdown-icon {
+        font-size: 12px;
+        transition: var(--transition);
+    }
+    
+    .has-submenu.active .dropdown-icon {
+        transform: rotate(180deg);
+    }
+    
+    .submenu {
+        list-style: none;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .has-submenu.active .submenu {
+        max-height: 300px;
+    }
+    
+    .submenu a {
+        display: block;
+        padding: 12px 20px 12px 60px;
+        color: #94a3b8;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    
+    .submenu a:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Divider */
+    .nav-divider {
+        padding: 20px 20px 10px;
+        font-size: 12px;
+        text-transform: uppercase;
+        color: #64748b;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+    
+    /* Sidebar Footer */
+    .sidebar-footer {
+        padding: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: auto;
+    }
+    
+    .btn-logout {
+        width: 100%;
+        padding: 12px;
+        background: rgba(239, 68, 68, 0.2);
+        color: #fecaca;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+    
+    .btn-logout:hover {
+        background: rgba(239, 68, 68, 0.3);
+        color: white;
+    }
+    
+    .sidebar-info {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 12px;
+        color: #64748b;
+    }
+    
+    .sidebar-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    
+    .sidebar-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 11px;
+    }
+    
+    .sidebar-links a:hover {
+        color: white;
+    }
+    
+    /* Scrollbar styling */
+    .sidebar-nav::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    .sidebar-nav::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .sidebar-nav::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+    }
+    
+    @media (max-width: 992px) {
+        .sidebar-toggle {
+            display: block;
+        }
+    }
+</style>

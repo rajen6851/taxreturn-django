@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TaxReturn</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'layout/style.css' %}">
+</head>
+
+<body>
+
+{% include 'layout/header.html' %}
+
+<!-- PAGE CONTENT HERE -->
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>File Your <span>Income Tax Return</span> with AI-Powered Accuracy</h1>
+                <p>Smart. Simple. Secure. Your AI-powered tax partner for effortless e-filing. Get expert assistance, maximize deductions, and file with 100% accuracy.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-accent">
+                        <i class="fas fa-robot"></i> File with AI (Self)
+                    </a>
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-user-tie"></i> Talk to Tax Expert
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">15 Lakh+</span>
+                        <span class="stat-label">Happy Users</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.9/5</span>
+                        <span class="stat-label">Rating</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Secure & Encrypted</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <!-- Placeholder for tax dashboard image -->
+                <div style="width: 100%; max-width: 500px; height: 400px; background: linear-gradient(135deg, #1A3A8F 0%, #2EC4B6 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; box-shadow: var(--shadow);">
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-chart-line" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                        <p>AI-Powered Tax Dashboard</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="container trust-container">
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="trust-text">
+                    <span class="trust-number">15,00,000+</span>
+                    <span class="trust-label">Users Trust Us</span>
+                </div>
+            </div>
+            
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="trust-text">
+                    <span class="trust-number">4.9/5</span>
+                    <span class="trust-label">Google Rating</span>
+                </div>
+            </div>
+            
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="trust-text">
+                    <span class="trust-number">100%</span>
+                    <span class="trust-label">Secure Filing</span>
+                </div>
+            </div>
+            
+            <div class="trust-item">
+                <div class="trust-icon">
+                    <i class="fas fa-city"></i>
+                </div>
+                <div class="trust-text">
+                    <span class="trust-number">3000+</span>
+                    <span class="trust-label">Cities Served</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Our Tax Services</h2>
+            <p class="section-subtitle">From AI-powered self-filing to expert-assisted returns, we cover all your tax needs with accuracy and security.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Self-Filing</h3>
+                    <p>Upload Form 16, auto-fill your ITR, and get smart deduction suggestions with our advanced AI engine.</p>
+                    <a href="#" class="btn btn-secondary">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Expert-Assisted Filing</h3>
+                    <p>Connect with certified CAs & tax professionals who review your return and maximize your savings.</p>
+                    <a href="#" class="btn btn-secondary">Talk to Expert</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Business & Startup Filing</h3>
+                    <p>End-to-end tax solutions for businesses including GST, TDS, incorporation, and compliance support.</p>
+                    <a href="#" class="btn btn-secondary">Explore</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notice & Compliance Manager</h3>
+                    <p>Free notice handling and year-round support to keep your tax records clean and up-to-date.</p>
+                    <a href="#" class="btn btn-secondary">Get Protected</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How TaxReturn Works</h2>
+            <p class="section-subtitle">File your income tax return in 4 simple steps with our secure platform.</p>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up & Upload Docs</h3>
+                    <p>Create your account and upload PAN, Aadhaar, Form 16, bank statements securely.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>AI Review & Suggestions</h3>
+                    <p>Our AI checks for errors, suggests deductions, and prepares your draft return.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Expert Verification</h3>
+                    <p>Optional CA review to ensure accuracy and maximize your tax savings.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>E-File & E-Verify</h3>
+                    <p>One-click submission and e-verification. Track refund status in real-time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Clients Say</h2>
+            <p class="section-subtitle">Join 15+ lakh Indians who trust TaxReturn for their tax filing needs.</p>
+            
+            <div class="testimonials-container">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Niranjana Sharma</h4>
+                            <p>Marketing Professional, Mumbai</p>
+                        </div>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"Team TaxReturn came to the rescue in crunch time. They were prompt, courteous and professional. Superlative service at a super competitive price. Couldn't be more satisfied."</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Rahul Patil</h4>
+                            <p>Software Engineer, Bangalore</p>
+                        </div>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"Right from the start the process was very smooth. The tax expert assigned was extremely helpful, proactive, patient and answered all questions. Made my spouse use the service as well!"</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Aahan Shetty</h4>
+                            <p>Freelancer, Delhi</p>
+                        </div>
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>"TaxReturn was a breeze to work with. It's a straightforward procedure that's easy to follow. All you have to do is fill out the form with the relevant information and submit documents."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Find quick answers to common questions about tax filing with TaxReturn.</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What is the last date for ITR filing for FY 2024-25?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The Income Tax Department has extended the ITR filing due date for FY 2024-25 (AY 2025-26) to September 16, 2025, for individuals not subject to audit.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Who is required to file an ITR for FY 2024-25?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Anyone with an annual income exceeding ₹2.5 lakh must file an ITR. For senior citizens (60-79 years), the limit is ₹3 lakh, and for super senior citizens (80+), it's ₹5 lakh.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How secure is my data on TaxReturn?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>TaxReturn uses 256-bit SSL encryption and follows strict data protection protocols. Your information is stored securely and never shared with third parties without consent.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I get assisted tax filing services?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! TaxReturn provides expert-assisted filing where experienced CAs and tax professionals guide you through the entire process, ensuring accuracy and maximum savings.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What if I receive a tax notice after filing?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>TaxReturn provides free notice management for returns filed through our platform. Our tax experts help you respond to any notices promptly and effectively.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Ready to File Your Tax Return?</h2>
+            <p>Join 15+ lakh Indians who trust TaxReturn for accurate, secure, and hassle-free tax filing. Maximize your deductions with AI-powered insights and expert guidance.</p>
+            <a href="#" class="btn btn-accent" style="font-size: 1.2rem; padding: 15px 40px;">
+                <i class="fas fa-rocket"></i> Start Filing Now
+            </a>
+        </div>
+    </section>
+
+{% include 'layout/footer.html' %}
+
+<script src="{% static 'layout/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Tax AI</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .test-btn { 
+            margin: 10px; padding: 10px 20px; 
+            background: #007bff; color: white; 
+            border: none; border-radius: 5px; cursor: pointer;
+        }
+        .result { 
+            background: #f8f9fa; padding: 15px; 
+            margin: 10px 0; border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Tax AI Assistant Test</h1>
+        
+        <div>
+            <h3>Quick Tests:</h3>
+            <button class="test-btn" onclick="testHealth()">Test Health</button>
+            <button class="test-btn" onclick="testChat('80C tax saving')">Test 80C</button>
+            <button class="test-btn" onclick="testChat('GST filing deadline')">Test GST</button>
+            <button class="test-btn" onclick="testChat('ITR documents')">Test ITR</button>
+            <button class="test-btn" onclick="testChat('Tax calculation')">Test Tax Calc</button>
+        </div>
+        
+        <div>
+            <h3>Custom Test:</h3>
+            <input type="text" id="customQuestion" placeholder="Enter tax question..." style="width: 300px; padding: 8px;">
+            <button class="test-btn" onclick="testCustom()">Test Custom</button>
+        </div>
+        
+        <div id="results">
+            <h3>Test Results:</h3>
+        </div>
+    </div>
+    
+    <script>
+        {% comment %} async function testHealth() {
+            try {
+                const response = await fetch('/ai-assistant/health/');
+                const data = await response.json();
+                showResult('Health Check', data);
+            } catch (error) {
+                showResult('Health Check', {error: error.message});
+            }
+        }
+        
+        async function testChat(question) {
+            try {
+                const response = await fetch('/ai-assistant/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: question,
+                        context: { income: 1000000 }
+                    })
+                });
+                const data = await response.json();
+                showResult(`Question: ${question}`, data);
+            } catch (error) {
+                showResult(`Question: ${question}`, {error: error.message});
+            }
+        }
+        
+        async function testCustom() {
+            const question = document.getElementById('customQuestion').value;
+            if (!question) return alert('Please enter a question');
+            await testChat(question);
+        }
+        
+        function showResult(title, data) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'result';
+            
+            let html = `<h4>${title}</h4>`;
+            html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            
+            resultDiv.innerHTML = html;
+            resultsDiv.appendChild(resultDiv);
+        } {% endcomment %}
+         // In your frontend JavaScript
+async function testCustomQuery() {
+    const question = document.getElementById('customQuestion').value;
+    if (!question.trim()) {
+        alert('Please enter a question');
+        return;
+    }
+    
+    const resultsDiv = document.getElementById('testResults');
+    resultsDiv.innerHTML = `<p>Processing: ${question}</p>`;
+    
+    try {
+        const response = await fetch('/ai-assistant/api/chat/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ message: question })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            resultsDiv.innerHTML = `
+                <h3>Question: ${question}</h3>
+                <div style="background: #e8f5e9; padding: 15px; border-radius: 5px;">
+                    <p><strong>Answer:</strong> ${data.response}</p>
+                    <p><strong>Confidence:</strong> ${(data.confidence * 100).toFixed(1)}%</p>
+                    ${data.sources && data.sources.length ? 
+                        `<p><strong>Sources:</strong> ${data.sources.join(', ')}</p>` : ''}
+                </div>
+            `;
+        } else {
+            resultsDiv.innerHTML = `
+                <h3>Question: ${question}</h3>
+                <div style="background: #ffebee; padding: 15px; border-radius: 5px;">
+                    <p><strong>Error:</strong> ${data.error || 'Unknown error'}</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        resultsDiv.innerHTML = `
+            <div style="background: #ffebee; padding: 15px; border-radius: 5px;">
+                <p><strong>Network Error:</strong> ${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+// Helper function for CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+    </script>
+</body>
+</html>

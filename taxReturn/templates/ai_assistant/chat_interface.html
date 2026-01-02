@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Tax Assistant{% endblock %}
+
+{% block content %}
+<div class="ai-chat-container" id="aiChatApp">
+    <!-- Chat messages will be dynamically loaded here -->
+</div>
+
+<!-- Hidden template for messages -->
+<template id="messageTemplate">
+    <div class="message" data-type="{type}">
+        <div class="avatar">{avatar}</div>
+        <div class="content">
+            <div class="text">{content}</div>
+            <div class="time">{time}</div>
+            <div class="sources" data-show="false">
+                {sources}
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- AI Status Indicator -->
+<div id="aiStatus" class="status-indicator">
+    <span class="dot"></span>
+    <span class="text">AI Assistant is ready</span>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize AI Chat
+    const aiChat = new AIChat({
+        endpoint: "{% url 'chat_api' %}",
+        sessionId: "{{ request.session.session_key }}",
+        userContext: {
+            income: {{ user.income|default:"0" }},
+            age: {{ user.age|default:"30" }},
+            residential_status: "{{ user.residential_status|default:'resident' }}"
+        }
+    });
+    
+    // Start chat
+    aiChat.init();
+</script>
+{% endblock %}

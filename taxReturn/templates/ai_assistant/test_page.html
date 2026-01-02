@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🤖 Advanced Tax AI Assistant Test</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval';">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; margin: 0; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .test-section { margin: 25px 0; padding: 25px; border: 2px solid #4CAF50; border-radius: 8px; background: #f9f9f9; }
+        h1 { color: #2c3e50; text-align: center; margin-top: 0; }
+        h3 { color: #3498db; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-top: 0; }
+        .btn { 
+            padding: 12px 24px; 
+            margin: 8px; 
+            background: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .btn:hover { background: #45a049; }
+        .input-group { margin: 15px 0; display: flex; }
+        input[type="text"] { 
+            padding: 12px; 
+            flex: 1;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        #testResults { 
+            margin-top: 25px; 
+            padding: 20px; 
+            background: white; 
+            border-radius: 8px; 
+            border: 2px solid #3498db;
+            min-height: 200px;
+        }
+        .answer-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4CAF50;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 20px auto;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Advanced Tax AI Assistant Test</h1>
+        <p style="text-align: center; color: #666;">Professional-level tax guidance</p>
+        
+        <div class="test-section">
+            <h3>📚 Quick Tests:</h3>
+            <button class="btn" onclick="askQuestion('Tell me about 80C investments')">80C Guide</button>
+            <button class="btn" onclick="askQuestion('ITR filing documents')">ITR Documents</button>
+            <button class="btn" onclick="askQuestion('GST filing procedure')">GST Compliance</button>
+            <button class="btn" onclick="askQuestion('Tax calculation')">Tax Calculation</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Custom Query:</h3>
+            <div class="input-group">
+                <input type="text" id="customQuestion" placeholder="Ask tax questions..." value="hi">
+                <button class="btn" onclick="askCustomQuestion()" style="margin-left: 10px;">Ask Expert</button>
+            </div>
+            <p style="color: #666; font-size: 14px; margin-top: 10px;">Try: "80C", "GST", "ITR", "HRA"</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Test Results:</h3>
+            <div id="testResults">
+                <div style="text-align: center; color: #666; padding: 40px;">
+                    <h3>Ready for Tax Consultation</h3>
+                    <p>Click any button or ask a question</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Your full JavaScript here
+        // (Same as in your view, no changes needed)
+    </script>
+</body>
+</html>

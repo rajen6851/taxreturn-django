@@ -1,0 +1,1511 @@
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaxBuddy - Smart Tax Solutions{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        :root {
+            --primary-color: #2d5be3;
+            --primary-dark: #1a44c2;
+            --secondary-color: #00c9a7;
+            --dark-color: #2d3748;
+            --light-color: #f8fafc;
+            --gray-color: #718096;
+            --light-gray: #e2e8f0;
+            --danger-color: #e53e3e;
+            --success-color: #38a169;
+            --warning-color: #d69e2e;
+            --sidebar-width: 260px;
+            --header-height: 70px;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f7fb;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: var(--transition);
+        }
+        
+        .main-content.full-width {
+            margin-left: 0;
+        }
+        
+        /* Content wrapper */
+        .content-wrapper {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Page header */
+        .page-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--gray-color);
+            margin-top: 5px;
+        }
+        
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* ==================== */
+        /* AI CHAT SECTION STYLES */
+        /* ==================== */
+        
+        .ai-chat-section {
+            height: 100%;
+        }
+        
+        .ai-chat-container {
+            display: flex;
+            gap: 25px;
+            height: 65vh;
+            min-height: 500px;
+            margin-bottom: 30px;
+        }
+        
+        /* Chat Sidebar */
+        .chat-sidebar {
+            width: 320px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .chat-sidebar-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--light-gray);
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+        }
+        
+        .chat-sidebar-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-sidebar-header p {
+            opacity: 0.9;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .chat-templates {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .template-category {
+            margin-bottom: 25px;
+        }
+        
+        .template-category:last-child {
+            margin-bottom: 0;
+        }
+        
+        .template-category h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .template-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .template-btn {
+            padding: 14px 16px;
+            background: #f8fafc;
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: none;
+            width: 100%;
+        }
+        
+        .template-btn:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .template-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .template-content h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--dark-color);
+        }
+        
+        .template-content p {
+            font-size: 12px;
+            color: var(--gray-color);
+            line-height: 1.4;
+        }
+        
+        .recent-chat-item {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .recent-chat-item:hover {
+            background: #f1f5f9;
+        }
+        
+        .recent-chat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(45, 91, 227, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .recent-chat-content h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--dark-color);
+        }
+        
+        .recent-chat-content p {
+            font-size: 12px;
+            color: var(--gray-color);
+        }
+        
+        /* Chat Main Area */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+        }
+        
+        .chat-bot-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .chat-bot-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00c9a7 0%, #00a8a8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .chat-bot-text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .chat-bot-text p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .chat-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .chat-action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Chat Messages */
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #f8fafc;
+        }
+        
+        .message-bot, .message-user {
+            display: flex;
+            gap: 15px;
+            max-width: 85%;
+        }
+        
+        .message-user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .message-bot .message-avatar {
+            background: linear-gradient(135deg, #00c9a7 0%, #00a8a8 100%);
+            color: white;
+        }
+        
+        .message-user .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .message-content {
+            flex: 1;
+        }
+        
+        .message-text {
+            padding: 18px;
+            border-radius: 18px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            line-height: 1.6;
+        }
+        
+        .message-bot .message-text {
+            border-top-left-radius: 4px;
+            background: white;
+        }
+        
+        .message-user .message-text {
+            border-top-right-radius: 4px;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+        }
+        
+        .message-text p {
+            margin-bottom: 10px;
+        }
+        
+        .message-text p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .message-text ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .message-text li {
+            margin-bottom: 8px;
+        }
+        
+        .message-time {
+            font-size: 12px;
+            color: var(--gray-color);
+            margin-top: 8px;
+            text-align: right;
+        }
+        
+        .message-user .message-time {
+            text-align: left;
+        }
+        
+        /* Chat Input */
+        .chat-input-area {
+            border-top: 1px solid var(--light-gray);
+            padding: 20px;
+            background: white;
+        }
+        
+        .input-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            font-size: 15px;
+            resize: none;
+            max-height: 120px;
+            min-height: 56px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(45, 91, 227, 0.1);
+        }
+        
+        .input-action-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid var(--light-gray);
+            color: var(--gray-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        
+        .input-action-btn:hover {
+            background: #f1f5f9;
+            color: var(--primary-color);
+        }
+        
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        
+        .send-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .input-hints {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--gray-color);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .quick-suggestions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .quick-suggestion {
+            padding: 6px 12px;
+            background: #f1f5f9;
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            font-size: 12px;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quick-suggestion:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        /* AI Features Grid */
+        .ai-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .ai-feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .ai-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ai-feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(45, 91, 227, 0.1) 0%, rgba(0, 201, 167, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--primary-color);
+            margin: 0 auto 20px;
+        }
+        
+        .ai-feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .ai-feature-card p {
+            font-size: 14px;
+            color: var(--gray-color);
+            line-height: 1.6;
+        }
+        
+        /* Loading Animation */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 10px 0;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--gray-color);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .ai-chat-container {
+                height: 60vh;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content-wrapper {
+                padding: 20px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 1000;
+                height: 100vh;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .mobile-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+            
+            .mobile-overlay.active {
+                display: block;
+            }
+            
+            .ai-chat-container {
+                flex-direction: column;
+                height: auto;
+                min-height: 600px;
+            }
+            
+            .chat-sidebar {
+                width: 100%;
+                height: 300px;
+            }
+            
+            .chat-main {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content-wrapper {
+                padding: 15px;
+            }
+            
+            .ai-features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .chat-actions {
+                align-self: flex-end;
+            }
+            
+            .input-hints {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .quick-suggestions {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .message-bot, .message-user {
+                max-width: 95%;
+            }
+            
+            .chat-input-area {
+                padding: 15px;
+            }
+            
+            .input-container {
+                flex-wrap: wrap;
+            }
+            
+            .chat-input {
+                min-height: 50px;
+                order: 1;
+                width: 100%;
+            }
+            
+            .input-action-btn, .send-btn {
+                width: 44px;
+                height: 44px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        {% include 'User/layouts/sidebar.html' %}
+        
+        <!-- Mobile overlay for sidebar -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content" id="mainContent">
+            
+            <!-- Top Header -->
+            {% include 'User/layouts/header.html' %}
+            
+            <!-- Page Content -->
+            <div class="content-wrapper">
+                {% block content %}
+                <!-- AI CHAT SECTION -->
+                <div class="ai-chat-section" id="aiChatSection">
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">AI Tax Assistant</h1>
+                            <p class="page-subtitle">Get instant answers to your tax questions. Our AI is trained on Indian tax laws and regulations.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-primary" onclick="newChat()">
+                                <i class="fas fa-plus"></i>
+                                New Chat
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AI Chat Container -->
+                    <div class="ai-chat-container">
+                        <!-- Chat Sidebar -->
+                        <div class="chat-sidebar">
+                            <div class="chat-sidebar-header">
+                                <h3><i class="fas fa-robot"></i> Quick Templates</h3>
+                                <p>Click any template to start chatting instantly</p>
+                            </div>
+                            
+                            <div class="chat-templates">
+                                <!-- Tax Planning Templates -->
+                                <div class="template-category">
+                                    <h4><i class="fas fa-chart-line"></i> Tax Planning</h4>
+                                    <div class="template-grid">
+                                        <button class="template-btn" onclick="useTemplate('tax_saving_80c')">
+                                            <div class="template-icon" style="background-color: rgba(45, 91, 227, 0.1); color: var(--primary-color);">
+                                                <i class="fas fa-indian-rupee-sign"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>Section 80C Deductions</h5>
+                                                <p>Best investments to save tax under 80C</p>
+                                            </div>
+                                        </button>
+                                        
+                                        <button class="template-btn" onclick="useTemplate('home_loan_tax')">
+                                            <div class="template-icon" style="background-color: rgba(0, 201, 167, 0.1); color: var(--secondary-color);">
+                                                <i class="fas fa-home"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>Home Loan Benefits</h5>
+                                                <p>Tax benefits on home loan EMI and registration</p>
+                                            </div>
+                                        </button>
+                                        
+                                        <button class="template-btn" onclick="useTemplate('capital_gains')">
+                                            <div class="template-icon" style="background-color: rgba(56, 161, 105, 0.1); color: var(--success-color);">
+                                                <i class="fas fa-chart-bar"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>Capital Gains Tax</h5>
+                                                <p>Calculate tax on stock market or property profits</p>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- GST Templates -->
+                                <div class="template-category">
+                                    <h4><i class="fas fa-receipt"></i> GST Queries</h4>
+                                    <div class="template-grid">
+                                        <button class="template-btn" onclick="useTemplate('gst_filing_due')">
+                                            <div class="template-icon" style="background-color: rgba(214, 158, 46, 0.1); color: var(--warning-color);">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>GST Filing Dates</h5>
+                                                <p>Upcoming GST return filing deadlines</p>
+                                            </div>
+                                        </button>
+                                        
+                                        <button class="template-btn" onclick="useTemplate('gst_rate_check')">
+                                            <div class="template-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger-color);">
+                                                <i class="fas fa-percentage"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>GST Rates Check</h5>
+                                                <p>Check applicable GST rate for any product</p>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Notice & Compliance -->
+                                <div class="template-category">
+                                    <h4><i class="fas fa-file-alt"></i> Notices & Compliance</h4>
+                                    <div class="template-grid">
+                                        <button class="template-btn" onclick="useTemplate('income_tax_notice')">
+                                            <div class="template-icon" style="background-color: rgba(147, 51, 234, 0.1); color: #9333ea;">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>Income Tax Notice</h5>
+                                                <p>What to do if you receive an IT notice</p>
+                                            </div>
+                                        </button>
+                                        
+                                        <button class="template-btn" onclick="useTemplate('itr_filing_mistake')">
+                                            <div class="template-icon" style="background-color: rgba(236, 72, 153, 0.1); color: #ec4899;">
+                                                <i class="fas fa-bug"></i>
+                                            </div>
+                                            <div class="template-content">
+                                                <h5>ITR Filing Error</h5>
+                                                <p>How to correct mistakes in filed ITR</p>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recent Chats -->
+                                <div class="template-category">
+                                    <h4><i class="fas fa-history"></i> Recent Chats</h4>
+                                    <div class="template-grid">
+                                        <div class="recent-chat-item" onclick="loadChat(1)">
+                                            <div class="recent-chat-icon">
+                                                <i class="fas fa-message"></i>
+                                            </div>
+                                            <div class="recent-chat-content">
+                                                <h5>HRA Exemption Calculation</h5>
+                                                <p>Yesterday, 4:30 PM</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="recent-chat-item" onclick="loadChat(2)">
+                                            <div class="recent-chat-icon">
+                                                <i class="fas fa-message"></i>
+                                            </div>
+                                            <div class="recent-chat-content">
+                                                <h5>NPS Tax Benefits</h5>
+                                                <p>Nov 15, 2:15 PM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Main Area -->
+                        <div class="chat-main">
+                            <!-- Chat Header -->
+                            <div class="chat-header">
+                                <div class="chat-bot-info">
+                                    <div class="chat-bot-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="chat-bot-text">
+                                        <h3>TaxReturn AI Assistant</h3>
+                                        <p>Online • Expert in Indian Taxation</p>
+                                    </div>
+                                </div>
+                                <div class="chat-actions">
+                                    <button class="chat-action-btn" onclick="clearChat()" title="Clear Chat">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="chat-action-btn" onclick="exportChat()" title="Export Chat">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button class="chat-action-btn" onclick="shareChat()" title="Share Chat">
+                                        <i class="fas fa-share"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Messages Area -->
+                            <div class="chat-messages" id="chatMessages">
+                                <!-- Welcome Message -->
+                                <div class="message-bot">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <div class="message-text">
+                                            <p>Hello! I'm your TaxBuddy AI Assistant. I'm here to help you with all your tax-related questions. Whether it's income tax, GST, tax planning, or compliance issues, I can provide accurate information based on Indian tax laws.</p>
+                                            <p>You can ask me things like:</p>
+                                            <ul>
+                                                <li>"How to save tax under Section 80C?"</li>
+                                                <li>"What documents do I need for ITR filing?"</li>
+                                                <li>"How to calculate capital gains tax?"</li>
+                                                <li>"GST filing process for small businesses"</li>
+                                            </ul>
+                                            <p>Try clicking on any template to the left, or type your question below!</p>
+                                        </div>
+                                        <div class="message-time">Just now</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Input Area -->
+                            <div class="chat-input-area">
+                                <div class="input-container">
+                                    <button class="input-action-btn" onclick="attachFile()" title="Attach File">
+                                        <i class="fas fa-paperclip"></i>
+                                    </button>
+                                    <textarea 
+                                        id="chatInput" 
+                                        class="chat-input" 
+                                        placeholder="Type your tax question here... (e.g., How to save tax on my salary?)"
+                                        rows="1"
+                                        onkeydown="handleInputKeydown(event)"
+                                    ></textarea>
+                                    <button class="input-action-btn" onclick="toggleVoiceInput()" title="Voice Input">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <button class="send-btn" onclick="sendMessage()" id="sendButton">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="input-hints">
+                                    <span>Press <kbd>Enter</kbd> to send • <kbd>Shift+Enter</kbd> for new line</span>
+                                    <div class="quick-suggestions">
+                                        <button class="quick-suggestion" onclick="quickQuestion('What is Section 80C?')">What is Section 80C?</button>
+                                        <button class="quick-suggestion" onclick="quickQuestion('How to file ITR online?')">How to file ITR online?</button>
+                                        <button class="quick-suggestion" onclick="quickQuestion('GST filing deadline?')">GST filing deadline?</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Features Grid -->
+                    <div class="ai-features-grid">
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>AI-Powered Analysis</h3>
+                            <p>Get personalized tax saving suggestions based on your income profile and financial goals.</p>
+                        </div>
+                        
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <h3>Document Analysis</h3>
+                            <p>Upload your Form 16, investment proofs or notices for AI-powered analysis and insights.</p>
+                        </div>
+                        
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h3>Tax Calculator</h3>
+                            <p>Calculate your tax liability, deductions, and refunds with our intelligent tax calculator.</p>
+                        </div>
+                        
+                        <div class="ai-feature-card">
+                            <div class="ai-feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Privacy First</h3>
+                            <p>Your data is encrypted and never stored. All conversations are private and secure.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END AI CHAT SECTION -->
+                {% endblock %}
+            </div>
+            
+            <!-- Footer -->
+            {% include 'User/layouts/footer.html' %}
+            
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+    
+    <script>
+        // Toggle sidebar on mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        // Close sidebar when clicking on overlay
+        document.getElementById('mobileOverlay').addEventListener('click', function() {
+            this.classList.remove('active');
+            document.getElementById('sidebar').classList.remove('active');
+        });
+        
+        // Toggle sidebar submenus
+        document.querySelectorAll('.has-submenu').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (window.innerWidth <= 992) {
+                    e.preventDefault();
+                    this.classList.toggle('active');
+                }
+            });
+        });
+        
+        // Active menu item highlight
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUrl = window.location.pathname;
+            const menuLinks = document.querySelectorAll('.nav-link');
+            
+            menuLinks.forEach(link => {
+                const linkUrl = link.getAttribute('href');
+                if (linkUrl && currentUrl.includes(linkUrl)) {
+                    link.classList.add('active');
+                    // Also highlight parent if exists
+                    const parentItem = link.closest('.has-submenu');
+                    if (parentItem) {
+                        parentItem.classList.add('active');
+                    }
+                }
+            });
+        });
+        
+        // ==================== //
+        // AI CHAT FUNCTIONALITY //
+        // ==================== //
+        
+        let chatHistory = [];
+        let currentChatId = 1;
+        
+        // Auto-resize textarea
+        const chatInput = document.getElementById('chatInput');
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        // Handle Enter key for sending
+        function handleInputKeydown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        // Send message function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addUserMessage(message);
+            
+            // Clear input
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI response (in real app, this would be an API call)
+            setTimeout(() => {
+                removeTypingIndicator();
+                const aiResponse = getAIResponse(message);
+                addBotMessage(aiResponse);
+                
+                // Save to chat history
+                chatHistory.push({
+                    user: message,
+                    bot: aiResponse,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Scroll to bottom
+                scrollToBottom();
+            }, 1500);
+        }
+        
+        // Add user message to chat
+        function addUserMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-user';
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-text">
+                        <p>${message}</p>
+                    </div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        // Add bot message to chat
+        function addBotMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-bot';
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-text">
+                        ${formatMessage(message)}
+                    </div>
+                    <div class="message-time">${getCurrentTime()}</div>
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+        
+        // Format message with line breaks
+        function formatMessage(text) {
+            // Convert markdown-like formatting
+            let formatted = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '</p><p>');
+            
+            // Add paragraph tags
+            if (!formatted.includes('<p>')) {
+                formatted = `<p>${formatted}</p>`;
+            }
+            
+            return formatted;
+        }
+        
+        // Show typing indicator
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message-bot';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    <div class="message-text">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+        }
+        
+        // Remove typing indicator
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        // Get current time in HH:MM format
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Scroll to bottom of chat
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Use template
+        function useTemplate(templateType) {
+            const templates = {
+                'tax_saving_80c': 'What are the best tax saving options under Section 80C for someone earning ₹12 lakhs per year?',
+                'home_loan_tax': 'Explain the tax benefits available on home loan for self-occupied property.',
+                'capital_gains': 'How is capital gains tax calculated on sale of property held for 5 years?',
+                'gst_filing_due': 'What are the upcoming GST filing deadlines for the current quarter?',
+                'gst_rate_check': 'What is the GST rate for software services and mobile phones?',
+                'income_tax_notice': 'I received an income tax notice for mismatch in Form 26AS. What should I do?',
+                'itr_filing_mistake': 'I made a mistake in my filed ITR. How can I revise it?'
+            };
+            
+            chatInput.value = templates[templateType] || '';
+            chatInput.focus();
+            chatInput.style.height = 'auto';
+            chatInput.style.height = (chatInput.scrollHeight) + 'px';
+        }
+        
+        // Quick question
+        function quickQuestion(question) {
+            chatInput.value = question;
+            chatInput.focus();
+            chatInput.style.height = 'auto';
+            chatInput.style.height = (chatInput.scrollHeight) + 'px';
+        }
+        
+        // Get AI response (simulated)
+        function getAIResponse(userMessage) {
+            const responses = {
+                'section 80c': `Under <strong>Section 80C</strong> of the Income Tax Act, you can claim deductions up to ₹1.5 lakhs per financial year. Popular options include:
+
+• <strong>ELSS Funds</strong> (Equity Linked Savings Scheme) - 3 year lock-in, potentially higher returns
+• <strong>PPF</strong> (Public Provident Fund) - 15 year tenure, sovereign guarantee
+• <strong>NSC</strong> (National Savings Certificate) - 5 year lock-in, fixed returns
+• <strong>Tax-saving FDs</strong> - 5 year lock-in, fixed interest
+• <strong>Life Insurance Premiums</strong> - Policy must be in your name
+• <strong>Home Loan Principal Repayment</strong> - Available for self-occupied property
+• <strong>Sukanya Samriddhi Yojana</strong> - For girl child education
+
+For ₹12 lakhs income, I recommend diversifying across ELSS (40%), PPF (40%), and the rest in insurance or FDs based on your risk appetite.`,
+                
+                'itr filing': `To file ITR online in India:
+
+<strong>Step 1:</strong> Collect all documents:
+• Form 16 from employer
+• Bank statements
+• Investment proofs (80C, 80D, etc.)
+• Interest certificates
+• Capital gains statements
+• Home loan certificate
+
+<strong>Step 2:</strong> Login to income tax e-filing portal
+
+<strong>Step 3:</strong> Choose correct ITR form (ITR-1 for salaried individuals)
+
+<strong>Step 4:</strong> Fill in personal details, income, deductions
+
+<strong>Step 5:</strong> Calculate tax liability and verify data
+
+<strong>Step 6:</strong> E-verify using Aadhaar OTP, net banking, or send signed copy to CPC
+
+The deadline for FY 2023-24 (AY 2024-25) is July 31, 2024.`,
+                
+                'gst filing deadline': `GST filing deadlines for regular taxpayers (GSTR-1 & GSTR-3B):
+
+<strong>For October-December 2023 Quarter:</strong>
+• GSTR-1: January 11, 2024
+• GSTR-3B: January 20, 2024
+
+<strong>For January-March 2024 Quarter:</strong>
+• GSTR-1: April 11, 2024
+• GSTR-3B: April 20, 2024
+
+<strong>Monthly filers:</strong>
+• GSTR-1: 11th of next month
+• GSTR-3B: 20th of next month
+
+Late filing attracts interest @18% p.a. and late fees of ₹50/day (₹20 for nil return).`,
+                
+                'default': `I understand you're asking about "${userMessage}". Based on Indian tax laws:
+
+This appears to be a tax-related query. For accurate information, I would need a few more details:
+
+1. Your residential status (Resident/Non-resident)
+2. Type of income (Salary/Business/Capital Gains)
+3. Financial year in question
+4. Specific amounts involved
+
+Could you please provide these details so I can give you a more precise answer?
+
+In the meantime, you might find these general guidelines helpful:
+• Always maintain proper documentation for all transactions
+• File returns before due dates to avoid penalties
+• Consider consulting a CA for complex situations
+• Keep track of all Form 26AS entries for reconciliation
+
+Would you like me to elaborate on any specific aspect of your query?`
+            };
+            
+            const lowerMessage = userMessage.toLowerCase();
+            
+            if (lowerMessage.includes('80c') || lowerMessage.includes('section 80c')) {
+                return responses['section 80c'];
+            } else if (lowerMessage.includes('itr') || lowerMessage.includes('file')) {
+                return responses['itr filing'];
+            } else if (lowerMessage.includes('gst') && (lowerMessage.includes('deadline') || lowerMessage.includes('date'))) {
+                return responses['gst filing deadline'];
+            } else {
+                return responses['default'];
+            }
+        }
+        
+        // New chat
+        function newChat() {
+            if (chatHistory.length > 0 && !confirm('Start a new chat? Current chat will be cleared.')) {
+                return;
+            }
+            
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="message-bot">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <div class="message-text">
+                            <p>Hello! I'm your TaxBuddy AI Assistant. I'm here to help you with all your tax-related questions. Whether it's income tax, GST, tax planning, or compliance issues, I can provide accurate information based on Indian tax laws.</p>
+                            <p>You can ask me things like:</p>
+                            <ul>
+                                <li>"How to save tax under Section 80C?"</li>
+                                <li>"What documents do I need for ITR filing?"</li>
+                                <li>"How to calculate capital gains tax?"</li>
+                                <li>"GST filing process for small businesses"</li>
+                            </ul>
+                            <p>Try clicking on any template to the left, or type your question below!</p>
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            `;
+            
+            chatHistory = [];
+            currentChatId++;
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+        }
+        
+        // Clear chat
+        function clearChat() {
+            if (confirm('Are you sure you want to clear the chat?')) {
+                newChat();
+            }
+        }
+        
+        // Export chat
+        function exportChat() {
+            if (chatHistory.length === 0) {
+                alert('No chat history to export.');
+                return;
+            }
+            
+            let exportText = 'TaxBuddy AI Chat Export\n';
+            exportText += 'Generated on: ' + new Date().toLocaleString() + '\n\n';
+            
+            chatHistory.forEach((chat, index) => {
+                exportText += `Q${index + 1}: ${chat.user}\n`;
+                exportText += `A${index + 1}: ${chat.bot.replace(/<[^>]*>/g, '')}\n\n`;
+            });
+            
+            const blob = new Blob([exportText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `taxbuddy-chat-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Chat exported successfully!');
+        }
+        
+        // Share chat
+        function shareChat() {
+            alert('Share functionality would be implemented here. In a real app, this would generate a shareable link or open sharing options.');
+        }
+        
+        // Attach file
+        function attachFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.jpg,.jpeg,.png,.doc,.docx';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    alert(`File "${file.name}" selected. In a real app, this would be uploaded and analyzed by AI.`);
+                    // Here you would upload the file and process it
+                }
+            };
+            input.click();
+        }
+        
+        // Toggle voice input
+        function toggleVoiceInput() {
+            alert('Voice input functionality would be implemented here. In a real app, this would use the Web Speech API.');
+        }
+        
+        // Load chat from history
+        function loadChat(chatId) {
+            alert(`Loading chat ${chatId}. In a real app, this would load chat history from database.`);
+        }
+        
+        // Initialize chat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus on input
+            chatInput.focus();
+            
+            // Auto-scroll to bottom
+            setTimeout(scrollToBottom, 100);
+            
+            // Add sample chat history
+            chatHistory = [
+                {
+                    user: 'How to save tax under Section 80C?',
+                    bot: 'Under Section 80C, you can invest up to ₹1.5 lakhs in various instruments like PPF, ELSS, NSC, tax-saving FDs, life insurance premiums, home loan principal repayment, etc.',
+                    timestamp: new Date().toISOString()
+                }
+            ];
+        });
+    </script>
+
+
+</body>
+</html>

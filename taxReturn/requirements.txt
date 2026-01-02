@@ -61,8 +61,8 @@ whitenoise==6.6.0
 djangorestframework==3.14.0
 django-cors-headers==4.2.0
 
-# Use psycopg3 for Python 3.13 compatibility
-psycopg[binary]==3.1.18
+# Use psycopg3 correctly
+psycopg[binary]==3.2.13
 redis==5.0.1
 celery==5.3.6
 django-celery-results==2.5.1
@@ -77,6 +77,5 @@ pillow==10.4.0
 pypdf2==3.0.1
 pdfminer.six==20221105
 
-# Additional dependencies
 asgiref==3.11.0
 sqlparse==0.5.5

@@ -68,7 +68,8 @@ django-celery-results==2.5.1
 django-redis==5.2.0
 
 python-dotenv==1.0.1
-pydantic==2.7.0
+pydantic==2.7.1
+pydantic-core==2.18.2
 loguru==0.7.2
 tqdm==4.66.2
 

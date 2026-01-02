@@ -68,8 +68,11 @@ django-celery-results==2.5.1
 django-redis==5.2.0
 
 python-dotenv==1.0.1
+# Replace pydantic lines with these:
 pydantic==2.7.1
-pydantic-core==2.18.2
+pydantic-core==2.18.2; python_version < "3.13"
+pydantic-core==2.18.2; python_version >= "3.13" and platform_machine == "x86_64"
+# Skip pydantic-core for Python 3.13 on other platforms
 loguru==0.7.2
 tqdm==4.66.2
 

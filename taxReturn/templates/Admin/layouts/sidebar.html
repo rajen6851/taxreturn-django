@@ -26,18 +26,28 @@
     <nav class="sidebar-nav">
         <ul class="nav-menu">
             <!-- Dashboard -->
-             <li class="nav-item">
-                <a href="{% url 'my_details' %}" class="nav-link">
-                    <i class="fas fa-user-cog"></i>
-                    <span>My Details</span>
-                </a>
-            </li>
             <li class="nav-item">
                 <a href="" class="nav-link">
                     <i class="fas fa-home"></i>
                     <span>Ai Assistant</span>
                 </a>
             </li>
+
+             <li class="nav-item">
+                <a href="{% url 'my_details' %}" class="nav-link">
+                    <i class="fas fa-user-cog"></i>
+                    <span>My Details</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{% url 'admin_itr_list' %}" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Itr</span>
+                </a>
+            </li>
+
+            
             
             {% comment %} <!-- My Orders -->
             <li class="nav-item">

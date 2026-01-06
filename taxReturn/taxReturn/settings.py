@@ -93,13 +93,13 @@ TEMPLATES = [
 # DATABASE (PostgreSQL)
 # =========================
 DATABASES = {
-    "default": {
+     "default": {
         # "ENGINE": "django.db.backends.postgresql",
-        # "NAME": os.getenv("DB_NAME", "Taxapp"),
-        # "USER": os.getenv("DB_USER", "postgres"),
-        # "PASSWORD": os.getenv("DB_PASSWORD", ""),
-        # "HOST": os.getenv("DB_HOST", "localhost"),
-        # "PORT": os.getenv("DB_PORT", "5432"),
+        # "NAME": "Taxapp",
+        # "USER": "postgres",
+        # "PASSWORD": "Tax@1234",
+        # "HOST": "127.0.0.1",   # localhost ki jagah ye use kar
+        # "PORT": "5432",
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "taxreturn_db_kveu",  # Render DB name
         "USER": "taxreturn_db_kveu_user",  # Render DB username

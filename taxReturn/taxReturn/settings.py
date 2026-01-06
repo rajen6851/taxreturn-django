@@ -105,7 +105,7 @@ DATABASES = {
         "USER": "taxreturn_db_kveu_user",  # Render DB username
         "PASSWORD": "RDXRPvrltOvQC6hmOtJaXSf4ipc4FTDA",  # Render DB password
        "HOST": "dpg-d5blu3p5pdvs73bnh8sg-a", 
-        "PORT": "5432",  # Render DB port
+        "PORT": "5432",  # Render DB port 
     }
 }
 

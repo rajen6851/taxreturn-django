@@ -41,13 +41,43 @@ INSTALLED_APPS = [
     "taxApp",
     "accounts",
     "itr",
+     'django.contrib.sites',  # ✅ ये ADD करें
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
 ]
+
+SITE_ID = 1  # 
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
 
 AUTH_USER_MODEL = "accounts.User"
 
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/dashboard/"
+LOGIN_REDIRECT_URL = "/dashboard/user/"
 LOGOUT_REDIRECT_URL = "/"
+
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
 
 # =========================
 # MIDDLEWARE
@@ -62,6 +92,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+     'allauth.account.middleware.AccountMiddleware',
+
+
 ]
 
 # =========================
@@ -94,18 +127,18 @@ TEMPLATES = [
 # =========================
 DATABASES = {
      "default": {
-        # "ENGINE": "django.db.backends.postgresql",
-        # "NAME": "Taxapp",
-        # "USER": "postgres",
-        # "PASSWORD": "Tax@1234",
-        # "HOST": "127.0.0.1",   # localhost ki jagah ye use kar
-        # "PORT": "5432",
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "taxreturn_db_kveu",  # Render DB name
-        "USER": "taxreturn_db_kveu_user",  # Render DB username
-        "PASSWORD": "RDXRPvrltOvQC6hmOtJaXSf4ipc4FTDA",  # Render DB password
-       "HOST": "dpg-d5blu3p5pdvs73bnh8sg-a", 
-        "PORT": "5432",  # Render DB port 
+        "NAME": "Taxapp",
+        "USER": "postgres",
+        "PASSWORD": "Tax@1234",
+        "HOST": "127.0.0.1",   # localhost ki jagah ye use kar
+        "PORT": "5432",
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": "taxreturn_db_kveu",  # Render DB name
+    #     "USER": "taxreturn_db_kveu_user",  # Render DB username
+    #     "PASSWORD": "RDXRPvrltOvQC6hmOtJaXSf4ipc4FTDA",  # Render DB password
+    #    "HOST": "dpg-d5blu3p5pdvs73bnh8sg-a", 
+    #     "PORT": "5432",  # Render DB port
     }
 }
 

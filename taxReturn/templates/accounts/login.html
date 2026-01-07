@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -369,10 +371,10 @@
                 {% csrf_token %}
                 
                 <div class="form-group">
-                    <label class="form-label" for="username">Username or Email</label>
+                    <label class="form-label" for="username">Email</label>
                     <div class="input-with-icon">
                         <i class="fas fa-user input-icon"></i>
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username or email" required>
+                        <input type="text" id="email" name="email" class="form-control" placeholder="Enter your email" required>
                     </div>
                 </div>
                 
@@ -400,22 +402,59 @@
                     Sign In
                 </button>
             </form>
+{% comment %} 
+<a href="{% provider_login_url 'google' %}">
+    Login with Google
+</a>
+
+<div class="box">
+    <h2>Welcome Back</h2>
+    <p>Login with your Google account</p>
+
+    <a class="google" href="{% provider_login_url 'google' process='login' %}">
+        Continue with Google
+    </a>
+</div>   {% endcomment %}
+
             
             <div class="divider">
                 <span>Or continue with</span>
             </div>
-            
-            <div class="social-login">
-                <button type="button" class="social-btn google">
-                    <i class="fab fa-google social-icon" style="color: #DB4437;"></i>
-                    Google
-                </button>
-                <button type="button" class="social-btn github">
-                    <i class="fab fa-github social-icon"></i>
-                    GitHub
-                </button>
-            </div>
-            
+     {% load socialaccount %}
+
+<div class="social-login">
+    <a href="{% provider_login_url 'google' process='login' %}"
+       class="google-btn">
+        <img src="https://developers.google.com/identity/images/g-logo.png">
+        <span>Continue with Google</span>
+    </a>
+</div>
+<style>
+.google-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    padding:12px 18px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    background:#fff;
+    color:#444;
+    font-weight:500;
+    text-decoration:none;
+    transition:.2s;
+}
+
+.google-btn:hover{
+    background:#f8f9fa;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+
+.google-btn img{
+    width:20px;
+}
+</style>
+
             <div class="signup-link">
                 Don't have an account?
                 <a href="{% url 'signup' %}">Create Account</a>

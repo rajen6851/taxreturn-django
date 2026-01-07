@@ -1,0 +1,46 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        body{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            background:#f5f6fa;
+            font-family:Arial;
+        }
+        .box{
+            background:#fff;
+            padding:30px;
+            width:360px;
+            border-radius:10px;
+            box-shadow:0 0 15px rgba(0,0,0,.1);
+            text-align:center;
+        }
+        .google{
+            display:block;
+            padding:12px;
+            background:#4285F4;
+            color:white;
+            text-decoration:none;
+            border-radius:6px;
+            margin-top:15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Welcome Back</h2>
+    <p>Login with your Google account</p>
+
+    <a class="google" href="{% provider_login_url 'google' process='login' %}">
+        Continue with Google
+    </a>
+</div>
+
+</body>
+</html>

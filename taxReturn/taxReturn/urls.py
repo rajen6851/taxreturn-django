@@ -24,6 +24,7 @@ urlpatterns = [
     path('itr/', include('itr.urls')),
     path('', include('taxApp.urls')),          # Home page
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('ai/', include('ai_assistant.urls')), # 👈 AI Assistant
     path('documents/', include('documents.urls')),

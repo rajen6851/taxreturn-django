@@ -127,18 +127,18 @@ TEMPLATES = [
 # =========================
 DATABASES = {
      "default": {
+        # "ENGINE": "django.db.backends.postgresql",
+        # "NAME": "Taxapp",
+        # "USER": "postgres",
+        # "PASSWORD": "Tax@1234",
+        # "HOST": "127.0.0.1",   # localhost ki jagah ye use kar
+        # "PORT": "5432",
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "Taxapp",
-        "USER": "postgres",
-        "PASSWORD": "Tax@1234",
-        "HOST": "127.0.0.1",   # localhost ki jagah ye use kar
-        "PORT": "5432",
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": "taxreturn_db_kveu",  # Render DB name
-    #     "USER": "taxreturn_db_kveu_user",  # Render DB username
-    #     "PASSWORD": "RDXRPvrltOvQC6hmOtJaXSf4ipc4FTDA",  # Render DB password
-    #    "HOST": "dpg-d5blu3p5pdvs73bnh8sg-a", 
-    #     "PORT": "5432",  # Render DB port
+        "NAME": "taxreturn_db_kveu",  # Render DB name
+        "USER": "taxreturn_db_kveu_user",  # Render DB username
+        "PASSWORD": "RDXRPvrltOvQC6hmOtJaXSf4ipc4FTDA",  # Render DB password
+       "HOST": "dpg-d5blu3p5pdvs73bnh8sg-a", 
+        "PORT": "5432",  # Render DB port
     }
 }
 
